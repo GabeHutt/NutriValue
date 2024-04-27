@@ -1,0 +1,180 @@
+Apple
+Banana
+Orange
+Pear
+Mango
+Strawberry
+Blueberry
+Raspberry
+Blackberry
+Pineapple
+Kiwi
+Grape
+Peach
+Cherry
+Plum
+Watermelon
+Cantaloupe
+Honeydew
+Lemon
+Lime
+Tangerine
+Pomegranate
+Papaya
+Fig
+Date
+Apricot
+Grapefruit
+Coconut
+Avocado
+Carrot
+Broccoli
+Cauliflower
+Spinach
+Kale
+Lettuce
+Tomato
+Cucumber
+Bell Pepper
+Asparagus
+Garlic
+Onion
+Potato
+Sweet Potato
+Pumpkin
+Peas
+Corn
+Zucchini
+Squash
+Eggplant
+Beet
+Radish
+Turnip
+Celery
+Cabbage
+Brussels Sprouts
+Mushroom
+Green Beans
+Artichoke
+Leek
+Arugula
+Endive
+Bok Choy
+Chicken Breast
+Ground Beef
+Pork Chop
+Tuna
+Salmon
+Trout
+Shrimp
+Crab
+Lobster
+Clams
+Mussels
+Tofu
+Tempeh
+Lentils
+Chickpeas
+Black Beans
+Kidney Beans
+Eggs
+Turkey
+Duck
+Venison
+Lamb
+Cod
+Haddock
+Halibut
+Sardines
+Seitan
+Edamame
+Quinoa
+Greek Yogurt
+Rice
+Pasta
+Bread
+Oats
+Barley
+Millet
+Rye
+Cornmeal
+Buckwheat
+Amaranth
+Spelt
+Farro
+Couscous
+Bulgur
+Wheatberries
+Milk
+Cheese
+Yogurt
+Butter
+Cream
+Ice Cream
+Kefir
+Cottage Cheese
+Sour Cream
+Almonds
+Walnuts
+Pecans
+Cashews
+Brazil Nuts
+Hazelnuts
+Pistachios
+Macadamia Nuts
+Sunflower Seeds
+Pumpkin Seeds
+Flax Seeds
+Chia Seeds
+Hemp Seeds
+Cookies
+Cakes
+Pies
+Muffins
+Croissants
+Scones
+Bagels
+Donuts
+Cupcakes
+Coffee
+Tea
+Soda
+Juice
+Smoothie
+Water
+Beer
+Wine
+Whisky
+Vodka
+Rum
+Chips
+Popcorn
+Pretzels
+Crackers
+Trail Mix
+Granola Bars
+Fruit Bars
+Nuts
+Seeds
+Veggie Burger
+Vegan Sausage
+Vegan Cheese
+Vegan Butter
+Vegan Milk
+Vegan Yogurt
+Honey
+Agave
+Maple Syrup
+Molasses
+Tofu
+Seaweed
+Nori
+Kimchi
+Sauerkraut
+Pickles
+Olives
+Hummus
+Baba Ganoush
+Pesto
+Tzatziki
+Guacamole
