@@ -14,8 +14,13 @@ fs = Fatsecret(API_ID, API_SECRET)
 
 def get_food(name):
     food_response = fs.foods_search(name, 1, 1)
-    food_info = food_response['food_description']
+    food_info = str(food_response['food_description'])
     print(food_info)
+    calories = re.findall(r"(\d{2})kcal", food_info)[0]
+    fat = re.findall(r'Fat: (\d*\.\d{2})g', food_info)[0]
+    carbs = re.findall(r'Carbs: (\d*\.\d{2})g', food_info)[0]
+    protein = re.findall(r'Protein: (\d*\.\d{2})g', food_info)[0]
+    return (float(calories), float(fat), float(carbs), float(protein))
 
 def main():
     get_food('nori')
