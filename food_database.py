@@ -20,6 +20,20 @@ def get_food(name):
 def main():
     get_food('nori')
 
+
+def make_database():
+    connection = sqlite3.connect("NutriValueDB")
+    #create table for the fatsecret API return values
+    cursor = connection.cursor()
+    cusor.execute(
+        "CREATE TABLE IF NOT EXISTS fatsecret (id TEXT, calories REAL, fat REAL, carbs REAL, protein REAL)"
+    )
+
+
+def store_items():
+    connection = sqlite3.connect("NutriValueDB")
+   
+
 if __name__ == '__main__':
     main()
 
