@@ -46,7 +46,7 @@ def store_items():
     final_id = 0
     with open('tracker.json', 'r') as tracking_file:
         tracking_data = json.load(tracking_file)
-    current_count = tracking_data['last_id']
+    current_count = tracking_data['last_id'] + 1
     connection = sqlite3.connect("NutriValue.db")
     cursor = connection.cursor()
     for i in range(0,25):
