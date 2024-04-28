@@ -61,7 +61,7 @@ def store_items():
                 fat_score = (food_nutrition[1] * 4 / food_nutrition[0]) * 100
                 carb_score = (food_nutrition[2] * 4 / food_nutrition[0]) * 100
                 true_nutrition = (current_count + i,) + food_nutrition + (fat_score, carb_score, protein_score)
-                cursor.execute('INSERT INTO food_nutrition (id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?,?)', true_nutrition)
+                cursor.execute('INSERT INTO food_nutrition (food_name_id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?,?)', true_nutrition)
         final_id = current_count + i
     tracking_data['last_id'] = final_id
     with open('tracker.json', 'w') as write:
