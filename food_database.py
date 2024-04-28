@@ -45,10 +45,20 @@ def make_database():
 
 
 def store_items():
-    connection = sqlite3.connect("NutriValueDB")
+    connection = sqlite3.connect("NutriValue.db")
     cursor = connection.cursor()
     for i in range(0,25):
-        print(i)
+        food_retrieve = cursor.execute("SELECT name FROM dining_hall_foods WHERE id=?"(current_count + i,))
+        food_name = food_retrieve.fetchone()[0]
+        res = cursor.execute("SELECT name FROM fatsecret WHERE food_name=?",(food_name,))
+        if res.fetchone() is None:
+            food_nutrition = get_food(food_name)
+            if food_nutrition is not None:
+                protein_score = (food_nutrition[4] * 9 / food_nutrition[1]) * 100
+                fat_score = (food_nutrition[2] * 4 / food_nutrition[1]) * 100
+                carb_score = (food_nutrition[3] * 4 / food_nutrition[1]) * 100
+                true_nutrition = food_nutrition + (fat_score, carb_score, protein_score)
+                cursor.execute('INSERT INTO fatsecret (id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?)', true_nutrition)
 
 
 if __name__ == '__main__':
