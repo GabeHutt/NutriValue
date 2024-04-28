@@ -65,7 +65,7 @@ def store_items():
     tracking_data['last_id'] = final_id
     with open('tracker.json', 'w') as write:
         json.dump(tracking_data, write)
-
+    connection.commit()
 
 
 if __name__ == '__main__':
