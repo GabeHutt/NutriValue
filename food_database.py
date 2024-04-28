@@ -12,11 +12,14 @@ API_SECRET = '4a269d09d9a04870be65fc4d777bcfae'
 fs = Fatsecret(API_ID, API_SECRET)
 
 
+
+
 def get_food(name):
     try:
         food_response = fs.foods_search(name, 1, 1)
         food_info = str(food_response['food_description'])
-        print(food_info)
+        print(food_response)
+
         calories = re.findall(r"(\d{2})kcal", food_info)[0]
         fat = re.findall(r'Fat: (\d*\.\d{2})g', food_info)[0]
         carbs = re.findall(r'Carbs: (\d*\.\d{2})g', food_info)[0]
@@ -26,8 +29,9 @@ def get_food(name):
         return None
 
 def main():
-    get_food('fwfwe')
-    store_items()
+    get_food('blueberry buttermilk pancakes')
+    #store_items()
+    
 
 
 def make_database():
