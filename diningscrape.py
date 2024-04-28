@@ -4,7 +4,9 @@ import re
 import os
 
 
-dining_hall_names = ['east-quad', 'west-quad', 'bursley']
+dining_hall_names = ['east-quad', 'bursley', 'south-quad', 'markley',
+                     'mosher-jordan', 'twigs-at-oxford', 'north-quad'
+                     ]
 url = 'https://dining.umich.edu/menus-locations/dining-halls/bursley/'
 
 response = requests.get(url)
