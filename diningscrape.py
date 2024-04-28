@@ -4,14 +4,14 @@ import re
 import os
 
 
-
+dining_hall_names = ['east-quad', 'west-quad', 'bursley']
 url = 'https://dining.umich.edu/menus-locations/dining-halls/bursley/'
 
 response = requests.get(url)
 
 soup = BeautifulSoup(response.text, 'html.parser')
 
-def find_course(course):
+def write_database(url):
     
     
 
