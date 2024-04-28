@@ -37,7 +37,7 @@ def make_database():
     #create table for the fatsecret API return values
     cursor = connection.cursor()
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS food_nutrtition (id TEXT, calories REAL, fat REAL, carbs REAL, protein REAL)"
+        "CREATE TABLE IF NOT EXISTS food_nutrition (id TEXT, calories REAL, fat REAL, carbs REAL, protein REAL)"
     )
     connection.commit()
 
