@@ -11,4 +11,8 @@ response = requests.get(url)
 
 soup = BeautifulSoup(response.text, 'html.parser')
 
+def find_course(course):
+    
+    
+
 print(soup)
