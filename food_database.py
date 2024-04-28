@@ -39,6 +39,7 @@ def make_database():
     cursor.execute(
         "CREATE TABLE IF NOT EXISTS food_nutrtition (id TEXT, calories REAL, fat REAL, carbs REAL, protein REAL)"
     )
+    connection.commit()
 
 
 
