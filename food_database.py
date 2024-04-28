@@ -33,7 +33,7 @@ def main():
 
 
 def make_database():
-    connection = sqlite3.connect("NutriValueDB")
+    connection = sqlite3.connect("NutriValue.db")
     #create table for the fatsecret API return values
     cursor = connection.cursor()
     cursor.execute(
