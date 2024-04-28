@@ -43,6 +43,7 @@ def make_database():
 
 
 def store_items():
+    final_id = 0
     with open('tracker.json', 'r') as tracking_file:
         tracking_data = json.load(tracking_file)
     current_count = tracking_data['last_id']
@@ -60,9 +61,14 @@ def store_items():
                 carb_score = (food_nutrition[3] * 4 / food_nutrition[1]) * 100
                 true_nutrition = food_nutrition + (fat_score, carb_score, protein_score)
                 cursor.execute('INSERT INTO food_nutrition (id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?)', true_nutrition)
+        final_id = current_count + i
+    tracking_data['last_id'] = final_id
+    with open('tracker.json', 'w') as write:
+        json.dump(tracking_data, write)
 
 
 
 if __name__ == '__main__':
     main()
+
 
