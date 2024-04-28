@@ -50,7 +50,7 @@ def store_items():
     connection = sqlite3.connect("NutriValue.db")
     cursor = connection.cursor()
     for i in range(0,25):
-        food_retrieve = cursor.execute("SELECT name FROM food_names WHERE id=?"(current_count + i,))
+        food_retrieve = cursor.execute("SELECT name FROM food_names WHERE id=?",(current_count + i,))
         food_name = food_retrieve.fetchone()[0]
         res = cursor.execute("SELECT name FROM food_nutrition WHERE food_name=?",(food_name,))
         if res.fetchone() is None:
