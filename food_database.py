@@ -57,9 +57,9 @@ def store_items():
         if res.fetchone() is None:
             food_nutrition = get_food(food_name)
             if food_nutrition is not None:
-                protein_score = (food_nutrition[4] * 9 / food_nutrition[1]) * 100
-                fat_score = (food_nutrition[2] * 4 / food_nutrition[1]) * 100
-                carb_score = (food_nutrition[3] * 4 / food_nutrition[1]) * 100
+                protein_score = (food_nutrition[3] * 9 / food_nutrition[0]) * 100
+                fat_score = (food_nutrition[1] * 4 / food_nutrition[0]) * 100
+                carb_score = (food_nutrition[2] * 4 / food_nutrition[0]) * 100
                 true_nutrition = (current_count + i,) + food_nutrition + (fat_score, carb_score, protein_score)
                 cursor.execute('INSERT INTO food_nutrition (id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?,?)', true_nutrition)
         final_id = current_count + i
