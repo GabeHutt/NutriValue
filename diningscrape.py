@@ -2,6 +2,9 @@ from bs4 import BeautifulSoup
 import requests
 import re
 import os
+import sqlite3
+
+
 
 
 dining_hall_names = ['east-quad', 'bursley', 'south-quad', 'markley',
