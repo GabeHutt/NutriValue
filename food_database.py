@@ -10,11 +10,7 @@ API_ID = '8ab25fc9a2ef4f6da52799c3ccda208e'
 API_SECRET = '4a269d09d9a04870be65fc4d777bcfae'
 
 fs = Fatsecret(API_ID, API_SECRET)
-with open('tracker.json', 'r') as tracking_file:
-        tracking_data = json.load(tracking_file)
     
-
-
 def get_food(name):
     try:
         food_response = fs.foods_search(name, 1, 1)
@@ -30,9 +26,10 @@ def get_food(name):
         return None
 
 def main():
-    get_food('blueberry buttermilk pancakes')
-    #store_items()
+    make_database()
+    store_items()
     
+
 
 
 def make_database():
@@ -46,13 +43,15 @@ def make_database():
 
 
 def store_items():
+    with open('tracker.json', 'r') as tracking_file:
+        tracking_data = json.load(tracking_file)
     current_count = tracking_data['last_id']
     connection = sqlite3.connect("NutriValue.db")
     cursor = connection.cursor()
     for i in range(0,25):
-        food_retrieve = cursor.execute("SELECT name FROM dining_hall_foods WHERE id=?"(current_count + i,))
+        food_retrieve = cursor.execute("SELECT name FROM food_names WHERE id=?"(current_count + i,))
         food_name = food_retrieve.fetchone()[0]
-        res = cursor.execute("SELECT name FROM fatsecret WHERE food_name=?",(food_name,))
+        res = cursor.execute("SELECT name FROM food_nutrition WHERE food_name=?",(food_name,))
         if res.fetchone() is None:
             food_nutrition = get_food(food_name)
             if food_nutrition is not None:
@@ -60,7 +59,8 @@ def store_items():
                 fat_score = (food_nutrition[2] * 4 / food_nutrition[1]) * 100
                 carb_score = (food_nutrition[3] * 4 / food_nutrition[1]) * 100
                 true_nutrition = food_nutrition + (fat_score, carb_score, protein_score)
-                cursor.execute('INSERT INTO fatsecret (id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?)', true_nutrition)
+                cursor.execute('INSERT INTO food_nutrition (id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?)', true_nutrition)
+
 
 
 if __name__ == '__main__':
