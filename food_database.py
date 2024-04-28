@@ -37,7 +37,7 @@ def make_database():
     #create table for the fatsecret API return values
     cursor = connection.cursor()
     cursor.execute(
-        "CREATE TABLE IF NOT EXISTS food_nutrition (id TEXT, calories REAL, fat REAL, carbs REAL, protein REAL)"
+        "CREATE TABLE IF NOT EXISTS food_nutrition (food_name_id INT, calories REAL, fat REAL, carbs REAL, protein REAL)"
     )
     connection.commit()
 
@@ -53,7 +53,7 @@ def store_items():
     for i in range(0,25):
         food_retrieve = cursor.execute("SELECT name FROM food_names WHERE id=?",(current_count + i,))
         food_name = food_retrieve.fetchone()[0]
-        res = cursor.execute("SELECT name FROM food_nutrition WHERE food_name=?",(food_name,))
+        res = cursor.execute("SELECT food_name_id FROM food_nutrition WHERE food_name=?",(food_name,))
         if res.fetchone() is None:
             food_nutrition = get_food(food_name)
             if food_nutrition is not None:
