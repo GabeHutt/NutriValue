@@ -26,8 +26,8 @@ def main():
             print("Populating...")
             diningscrape.main()
             food_database.main()
-            time.sleep(5)
-            print("25 items populated. Press [1] to populate more, or [2] to initialize the main table.")
+            time.sleep(8)
+            print("25 items populated.")
         elif user_input == "2":
             print("Initializing main table...")
             key_table.main()
@@ -36,7 +36,7 @@ def main():
             
             break  # Exit the loop when the main table is initialized
         else:
-            print("Invalid input. Please enter [1] to populate or [2] to initialize.")
+            print("Invalid input. Please enter [1] to populate or [2] to initialize main tablegit .")
     print("Generating Visualizations")
     while True:
         user_input = input("Enter [1] to quit program: ")
