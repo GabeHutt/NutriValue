@@ -44,6 +44,7 @@ def make_database():
         "CREATE TABLE IF NOT EXISTS food_nutrition (food_name_id INT, calories REAL, fat REAL, carbs REAL, protein REAL, fat_score REAL, carb_score REAL, protein_score REAL)"
     )
     connection.commit()
+    connection.close()
 
 
 
@@ -71,6 +72,7 @@ def store_items():
     with open('tracker.json', 'w') as write:
         json.dump(tracking_data, write)
     connection.commit()
+    connection.close()
 
 
 if __name__ == '__main__':
