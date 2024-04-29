@@ -9,7 +9,13 @@ def write_dining_hall_to_id():
         curr.execute("CREATE TABLE IF NOT EXISTS dining_halls (id INTEGER PRIMARY KEY, name TEXT UNIQUE)")
 
         for dining_hall in dining_hall_names:
-            curr.execute("INSERT INTO dining_halls (name) VALUES (?)", (dining_hall,))
+            try:
+                curr.execute("INSERT INTO dining_halls (name) VALUES (?)", (dining_hall,))
+            except sqlite3.IntegrityError:
+                # Skip duplicate dining hall silently
+                continue
+
+        connection.commit()
 
 def write_course_to_id():
     courses = ['breakfast', 'brunch', 'dinner']
@@ -18,7 +24,13 @@ def write_course_to_id():
         curr.execute("CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY, name TEXT UNIQUE)")
 
         for course in courses:
-            curr.execute("INSERT INTO courses (name) VALUES (?)", (course,))
+            try:
+                curr.execute("INSERT INTO courses (name) VALUES (?)", (course,))
+            except sqlite3.IntegrityError:
+                # Skip duplicate course silently
+                continue
+
+        connection.commit()
 
 write_dining_hall_to_id()
 write_course_to_id()
