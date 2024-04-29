@@ -1,7 +1,12 @@
-from diningscrape import dining_hall_names
+import json
 import sqlite3
 
+dining_hall_names = ['east-quad', 'bursley', 'south-quad', 'markley',
+                     'mosher-jordan', 'twigs-at-oxford', 'north-quad'
+                     ]
 
+with open("menu_dict.json", 'r') as file:
+    menu_dict = json.load(file)
 
 def write_dining_hall_to_id():
     with sqlite3.connect("NutriValue.db") as connection:

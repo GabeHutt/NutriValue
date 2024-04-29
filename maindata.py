@@ -1,6 +1,12 @@
-from diningscrape import menu_dict
 import sqlite3
 import json
+
+dining_hall_names = ['east-quad', 'bursley', 'south-quad', 'markley',
+                     'mosher-jordan', 'twigs-at-oxford', 'north-quad'
+                     ]
+with open("menu_dict.json", 'r') as file:
+    menu_dict = json.load(file)
+
 
 def get_id_from_name(cursor, table, name):
     """
@@ -67,6 +73,7 @@ def populate_food_references_with_names(data_dict):
 
         connection.commit()
             
+
 
 
 populate_food_references_with_names(menu_dict)      

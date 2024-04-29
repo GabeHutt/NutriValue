@@ -37,7 +37,10 @@ def get_menu(dining_hall):
 
 
 def create_menu_dict():
-    return {name: get_menu(name) for name in dining_hall_names}
+    menu_dict = {name: get_menu(name) for name in dining_hall_names}
+    with open("menu_dict.json", 'w') as ofile:
+        json.dump(menu_dict, ofile)
+    return menu_dict
 
 menu_dict = create_menu_dict()
 
