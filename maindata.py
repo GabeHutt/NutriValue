@@ -1,60 +1,44 @@
 import sqlite3
 import json
 
-dining_hall_names = ['east-quad', 'bursley', 'south-quad', 'markley',
-                     'mosher-jordan', 'twigs-at-oxford', 'north-quad'
-                     ]
-with open("menu_dict.json", 'r') as file:
-    menu_dict = json.load(file)
-
-
-
-
-def get_id_from_name(cursor, table, name):
-    """
-    Helper function to fetch the ID from the database using the name from the respective table.
-    """
-    cursor.execute(f"SELECT id FROM {table} WHERE name = ?", (name,))
-    result = cursor.fetchone()
-    if result:
-        return result[0]
-    return None  # Return None if no ID is found
-
-def populate_food_references_with_names(data_dict):
+def populate_food_references_with_joins(data_dict):
     with sqlite3.connect("NutriValue.db") as connection:
         connection.execute("PRAGMA foreign_keys = ON")
         cursor = connection.cursor()
         cursor.execute("CREATE TABLE IF NOT EXISTS food_references (id INTEGER PRIMARY KEY, hall_name_id INT, course_id INT, meal_id INT)")
 
+        # Prepare a SQL command for insertion
+        insert_sql = "INSERT INTO food_references (hall_name_id, course_id, meal_id) VALUES (?, ?, ?)"
+
+        # Iterate over each item in the dictionary
         for hall_name, courses_dict in data_dict.items():
-            hall_id = get_id_from_name(cursor, 'dining_halls', hall_name)
-            if hall_id is None:
-                continue
-            
             for course_name, food_names in courses_dict.items():
-                course_id = get_id_from_name(cursor, 'courses', course_name)
-                if course_id is None:
-                    continue
-
                 for meal_name in food_names:
-                    meal_id = get_id_from_name(cursor, 'food_names', meal_name)
-                    if meal_id is None:
-                        continue
+                    # Use JOIN to fetch all necessary IDs in a single query
+                    cursor.execute("""
+                        SELECT dh.id, c.id, fn.id
+                        FROM dining_halls dh
+                        JOIN courses c ON c.name = ?
+                        JOIN food_names fn ON fn.name = ?
+                        WHERE dh.name = ?
+                    """, (course_name, meal_name, hall_name))
 
-                    sql_command = """
-                        INSERT INTO food_references (hall_name_id, course_id, meal_id)
-                        VALUES (?, ?, ?)
-                    """
-                    try:
-                        cursor.execute(sql_command, (hall_id, course_id, meal_id))
-                    except sqlite3.IntegrityError:
-                        continue
-
+                    # Fetch the result
+                    result = cursor.fetchone()
+                    if result:
+                        hall_id, course_id, meal_id = result
+                        # Insert the fetched IDs into food_references
+                        try:
+                            cursor.execute(insert_sql, (hall_id, course_id, meal_id))
+                        except sqlite3.IntegrityError:
+                            continue  # Skip if there's a duplicate
+                        
         connection.commit()
 
-
 def main():
-    populate_food_references_with_names(menu_dict)    
-        
+    with open("menu_dict.json", 'r') as file:
+        menu_dict = json.load(file)
+    populate_food_references_with_joins(menu_dict)
+
 if __name__ == '__main__':
-    main()         
+    main()
