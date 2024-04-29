@@ -56,7 +56,11 @@ def store_items():
     cursor = connection.cursor()
     for i in range(0,25):
         food_retrieve = cursor.execute("SELECT name FROM food_names WHERE id=?",(current_count + i,))
-        food_name = food_retrieve.fetchone()[0]
+        flag = food_retrieve.fetchone()
+        if flag:
+            food_name = flag[0]
+        else:
+            break
         res = cursor.execute("SELECT food_name_id FROM food_nutrition WHERE food_name_id=?",(current_count + i,))
         if res.fetchone() is None:
             food_nutrition = get_food(food_name)
