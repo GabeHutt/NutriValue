@@ -85,9 +85,8 @@ def write_name_to_id():
 
 
     
-
-
-write_name_to_id()
+def main():
+    write_name_to_id()
 
                 
             

@@ -37,5 +37,6 @@ def write_course_to_id():
 
         connection.commit()
 
-write_dining_hall_to_id()
-write_course_to_id()
+def main():
+    write_dining_hall_to_id()
+    write_course_to_id()

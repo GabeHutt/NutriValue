@@ -64,7 +64,7 @@ def populate_food_references_with_names(data_dict):
         connection.commit()
 
 
-# Assuming you have the 'menu_dict' loaded
-populate_food_references_with_names(menu_dict)    
+def main():
+    populate_food_references_with_names(menu_dict)    
         
         
