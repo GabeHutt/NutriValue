@@ -28,9 +28,9 @@ def main():
 
     top_protein_meals = {}
     data_collection = {}
-    for i in range(1, dining_halls.len()):
+    for i in range(1, len(dining_halls)):
         data_collection[i] = {}
-        for j in range(1, courses.len()):
+        for j in range(1, len(courses)):
             data_collection[i][j] = {
                 'p_score': 0,
                 'c_score': 0,
@@ -71,7 +71,7 @@ def main():
                 meal_name_tuple = nutri_cursor.fetchone()
                 meal_name = meal_name_tuple[0]
                 
-                if top_protein_meals[hall_name].len() < 3:
+                if len(top_protein_meals[hall_name]) < 3:
                     if meal_name not in top_protein_meals[hall_name]:
                         top_protein_meals[hall_name][meal_name] = {
                             'p_score': protein_score,
@@ -82,7 +82,7 @@ def main():
                 to_remove = None
                 if meal_name not in top_protein_meals[hall_name]:
                     for meals in top_protein_meals[hall_name]:
-                        current_score = top_protein_meals[meals]['p_score']
+                        current_score = top_protein_meals[hall_name][meals]['p_score']
                         if protein_score > current_score:
                             if current_score < min:
                                 min = current_score
@@ -95,54 +95,89 @@ def main():
                                 'f_score': fat_score
                             }
                 
-    #data compression for visualizations
-    dining_protein_scores = [[]]
-    for i in range(1, dining_halls.len()):
-        for j in range(1, courses.len()):
-            dining_protein_scores[i - 1].append = (data_collection[i][j]['p_score']/data_collection[i][j]['num'])
-    # set width of bar 
-    barWidth = 0.15
-    fig = plt.subplots(figsize =(12, 8)) 
- 
-# set height of bar 
+    data_dining_halls = [
+        'East Quad',
+        'Bursely',
+        'South Quad',
+        'Markley',
+        'Mosher Jordan',
+        'Twigs at Oxford',
+        'North Quad'
+    ]
+    data_courses = [
+        'Breakfast',
+        'Brunch',
+        'Dinner'
+    ]
+    # Data compression for visualizations
     
- 
-# Set position of bar on X axis 
-    br1 = np.arange(len(dining_protein_scores[0])) 
-    br2 = [x + barWidth for x in br1] 
-    br3 = [x + barWidth for x in br2] 
-    br4 = [x + barWidth for x in br2] 
-    br5 = [x + barWidth for x in br2] 
-    br6 = [x + barWidth for x in br2] 
-    br7 = [x + barWidth for x in br2] 
- 
-# Make the plot
-    plt.bar(br1, dining_protein_scores[0], color ='r', width = barWidth, 
-        edgecolor ='grey', label = dining_halls[1]) 
-    plt.bar(br2, dining_protein_scores[1], color ='g', width = barWidth, 
-        edgecolor ='grey', label = dining_halls[2]) 
-    plt.bar(br3, dining_protein_scores[2], color ='b', width = barWidth, 
-        edgecolor ='grey', label = dining_halls[3]) 
-    plt.bar(br4, dining_protein_scores[3], color ='o', width = barWidth, 
-        edgecolor ='grey', label = dining_halls[4]) 
-    plt.bar(br5, dining_protein_scores[4], color ='i', width = barWidth, 
-        edgecolor ='grey', llabel = dining_halls[5]) 
-    plt.bar(br6, dining_protein_scores[5], color ='v', width = barWidth, 
-        edgecolor ='grey', label = dining_halls[6]) 
-    plt.bar(br7, dining_protein_scores[6], color ='y', width = barWidth, 
-        edgecolor ='grey', label = dining_halls[7]) 
- 
-# Adding Xticks 
-    plt.xlabel('Average Protein Score', fontweight ='bold', fontsize = 15) 
-    plt.ylabel('Meal', fontweight ='bold', fontsize = 15) 
-    plt.xticks([r + barWidth for r in range(len(dining_protein_scores[0]))], 
-        ['Breakfast', 'Brunch', 'Dinner'])
- 
-    plt.legend()
-    plt.show()  
-        
+    # Set width of bar
+    barWidth = 0.1
+    fig, axs = plt.subplots(3, 1)
+
+    # Set position of bar on X axis
+    r = np.arange(3)
+
+    # Define a color map
+    colors = ["#1984c5", "#63bff0", "#a7d5ed", "#e2e2e2", "#e1a692", "#e14b31", "#c23728"]
+
+    # Protein Score Plot
+    dining_protein_scores = []
+    for i in range(1, len(dining_halls)):
+        scores = [data_collection[i][j]['p_score'] / data_collection[i][j]['num'] for j in range(1,len(courses))]
+        dining_protein_scores.append(scores)
+    for i, dining_hall in enumerate(data_dining_halls):
+        axs[0].bar(r + i * barWidth, dining_protein_scores[i], color = colors[i], width = barWidth, label = dining_hall)
 
 
+    axs[0].set_ylabel('Average Protein %', fontweight='bold', fontsize=15)
+    axs[0].set_xticks([r + 3*barWidth for r in range(len(data_courses))], data_courses)
+    axs[0].set_yticks([0, 20, 40, 60, 80, 100])
+
+   
+    
+
+    #Now visualizing data for carb scores
+    
+    dining_carb_scores = []
+    for i in range(1, len(dining_halls)):
+        scores = [data_collection[i][j]['c_score'] / data_collection[i][j]['num'] for j in range(1,len(courses))]
+        dining_carb_scores.append(scores)
+
+    for i, dining_hall in enumerate(data_dining_halls):
+        axs[1].bar(r + i * barWidth, dining_carb_scores[i], color = colors[i], width = barWidth, label = dining_hall)
+
+
+    axs[1].set_ylabel('Average Carb %', fontweight='bold', fontsize=15)
+    axs[1].set_xticks([r + 3*barWidth for r in range(len(data_courses))], data_courses)
+    axs[1].set_yticks([0, 20, 40, 60, 80, 100])
+
+ 
+    
+
+
+    #Fat Score Visualizing
+    dining_fat_scores = []
+    for i in range(1, len(dining_halls)):
+        scores = [data_collection[i][j]['f_score'] / data_collection[i][j]['num'] for j in range(1,len(courses))]
+        dining_fat_scores.append(scores)
+    for i, dining_hall in enumerate(data_dining_halls):
+        axs[2].bar(r + i * barWidth, dining_fat_scores[i], color = colors[i], width = barWidth, label = dining_hall)
+
+
+    axs[2].set_xlabel('Meal', fontweight='bold', fontsize=15)
+    axs[2].set_ylabel('Average Fat %', fontweight='bold', fontsize=15)
+    axs[2].set_xticks([r + 3*barWidth for r in range(len(data_courses))], data_courses)
+    axs[2].set_yticks([0, 20, 40, 60, 80, 100])
+
+    fig.legend(data_dining_halls, title='Dining Halls', loc='center left', bbox_to_anchor=(0.025, 0.5))
+    fig.subplots_adjust(left=0.2)
+    plt.show()
+
+    
+    
+
+    
 
 
 
