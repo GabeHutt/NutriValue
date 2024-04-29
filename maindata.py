@@ -7,18 +7,7 @@ dining_hall_names = ['east-quad', 'bursley', 'south-quad', 'markley',
 with open("menu_dict.json", 'r') as file:
     menu_dict = json.load(file)
 
-def list_tables_and_columns():
-    with sqlite3.connect("NutriValue.db") as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = cursor.fetchall()
-        for table in tables:
-            cursor.execute(f"PRAGMA table_info({table[0]})")
-            columns = cursor.fetchall()
-            
-                
 
-list_tables_and_columns()
 
 
 def get_id_from_name(cursor, table, name):
