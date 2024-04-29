@@ -15,9 +15,7 @@ def get_food(name):
     try:
         food_response = fs.foods_search(name, 1, 1)
         food_info = str(food_response['food_description'])
-        print(food_response)
-
-        calories = re.findall(r"(\d{2})kcal", food_info)[0]
+        calories = re.findall(r"(\d*)kcal", food_info)[0]
         fat = re.findall(r'Fat: (\d*\.\d{2})g', food_info)[0]
         carbs = re.findall(r'Carbs: (\d*\.\d{2})g', food_info)[0]
         protein = re.findall(r'Protein: (\d*\.\d{2})g', food_info)[0]
@@ -57,9 +55,9 @@ def store_items():
         if res.fetchone() is None:
             food_nutrition = get_food(food_name)
             if food_nutrition is not None:
-                protein_score = (food_nutrition[3] * 9 / food_nutrition[0]) * 100
-                fat_score = (food_nutrition[1] * 4 / food_nutrition[0]) * 100
-                carb_score = (food_nutrition[2] * 4 / food_nutrition[0]) * 100
+                protein_score = round((food_nutrition[3] * 4 / food_nutrition[0]) * 100, 2)
+                fat_score = round((food_nutrition[1] * 9 / food_nutrition[0]) * 100 , 2)
+                carb_score = round((food_nutrition[2] * 4 / food_nutrition[0]) * 100 , 2)
                 true_nutrition = (current_count + i,) + food_nutrition + (fat_score, carb_score, protein_score)
                 cursor.execute('INSERT INTO food_nutrition (food_name_id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?,?)', true_nutrition)
         final_id = current_count + i

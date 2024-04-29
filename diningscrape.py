@@ -43,17 +43,16 @@ def create_menu_dict():
 def write_name_to_id():
     with open('tracker.json', 'r') as tracking_file:
         tracking_data = json.load(tracking_file)
-    
+
     counter = tracking_data['name_to_id']
     cap = counter + 25
-    
+
     with sqlite3.connect("NutriValue.db") as connection:
         curr = connection.cursor()
         curr.execute("CREATE TABLE IF NOT EXISTS food_names (id INTEGER PRIMARY KEY, name TEXT UNIQUE)")
         
-        
-        menu_dict = create_menu_dict
-        
+        menu_dict = create_menu_dict()
+
         record_mode = False
         new_counter = 0
 
@@ -62,9 +61,14 @@ def write_name_to_id():
                 for meal in meals:
                     if new_counter == counter:
                         record_mode = True
+
                     if record_mode and counter < cap:
-                        curr.execute("INSERT INTO food_names (name) VALUES (?)", (meal,))
-                        counter += 1
+                        try:
+                            curr.execute("INSERT INTO food_names (name) VALUES (?)", (meal,))
+                            counter += 1  # Only increment the counter if insertion is successful
+                        except sqlite3.IntegrityError:
+                            # If a duplicate is found, this block executes, effectively skipping the insertion
+                            continue
                     new_counter += 1
 
         tracking_data['name_to_id'] = counter
