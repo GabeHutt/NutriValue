@@ -12,6 +12,12 @@ API_SECRET = '4a269d09d9a04870be65fc4d777bcfae'
 fs = Fatsecret(API_ID, API_SECRET)
     
 def get_food(name):
+    if re.match(f"[Ss]ervice", name):
+        return None
+    if re.findall(f"[Gg]rilled",name):
+        pattern = r"(.*?)(?:[Gg]rilled)(.*)"
+        matches = re.findall(pattern, name)
+        name = "".join(matches[0])
     try:
         food_response = fs.foods_search(name, 1, 1)
         food_info = str(food_response['food_description'])
