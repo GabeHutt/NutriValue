@@ -35,11 +35,16 @@ def get_menu(dining_hall):
                 dining_menu[course_name].append(name)
     return dining_menu
 
+with open('tracker.json', 'r') as tracking_file:
+        tracking_data = json.load(tracking_file)
 
-def create_menu_dict():
-    return {name: get_menu(name) for name in dining_hall_names}
+def create_menu_dict(counter):
+    menu_dict = {name: get_menu(name) for name in dining_hall_names}
+    with open("menu_dict.json", 'w') as ofile:
+        json.dump(menu_dict, ofile)
+    return menu_dict
 
-menu_dict = create_menu_dict()
+menu_dict = create_menu_dict(tracking_data["last_id"])
 
 def write_name_to_id():
     with open('tracker.json', 'r') as tracking_file:
