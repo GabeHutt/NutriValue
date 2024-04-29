@@ -18,4 +18,7 @@ def write_course_to_id():
         curr.execute("CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY, name TEXT UNIQUE)")
 
         for course in courses:
-            curr.execute("INSERT INTO dining_halls (name) VALUES (?)", (course,))
+            curr.execute("INSERT INTO courses (name) VALUES (?)", (course,))
+
+write_dining_hall_to_id()
+write_course_to_id()

@@ -39,6 +39,7 @@ def get_menu(dining_hall):
 def create_menu_dict():
     return {name: get_menu(name) for name in dining_hall_names}
 
+menu_dict = create_menu_dict()
 
 def write_name_to_id():
     with open('tracker.json', 'r') as tracking_file:
@@ -51,7 +52,7 @@ def write_name_to_id():
         curr = connection.cursor()
         curr.execute("CREATE TABLE IF NOT EXISTS food_names (id INTEGER PRIMARY KEY, name TEXT UNIQUE)")
         
-        menu_dict = create_menu_dict()
+        
 
         record_mode = False
         new_counter = 0
