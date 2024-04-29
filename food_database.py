@@ -76,6 +76,7 @@ def store_items():
         json.dump(tracking_data, write)
     connection.commit()
 
-
+if __name__ == '__main__':
+    main() 
 
 

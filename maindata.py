@@ -67,4 +67,5 @@ def populate_food_references_with_names(data_dict):
 def main():
     populate_food_references_with_names(menu_dict)    
         
-        
+if __name__ == '__main__':
+    main()         

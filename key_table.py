@@ -40,3 +40,6 @@ def write_course_to_id():
 def main():
     write_dining_hall_to_id()
     write_course_to_id()
+
+if __name__ == '__main__':
+    main() 
