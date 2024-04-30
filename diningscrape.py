@@ -76,7 +76,8 @@ def write_name_to_id():
                         except sqlite3.IntegrityError:
                             continue
                     new_counter += 1
-
+        if counter is tracking_data['name_to_id']:
+            print('All Menu Item Have Been Collected!')
         tracking_data['name_to_id'] = counter
         with open('tracker.json', 'w') as tracking_file:
             json.dump(tracking_data, tracking_file)

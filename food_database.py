@@ -60,7 +60,7 @@ def store_items():
         if flag:
             food_name = flag[0]
         else:
-            break
+            continue
         res = cursor.execute("SELECT food_name_id FROM food_nutrition WHERE food_name_id=?",(current_count + i,))
         if res.fetchone() is None:
             food_nutrition = get_food(food_name)
@@ -75,6 +75,8 @@ def store_items():
     with open('tracker.json', 'w') as write:
         json.dump(tracking_data, write)
     connection.commit()
+    if final_id is tracking_data['name_to_id']:
+        print('No More Nutritional Information To Gather, please Run key_tables then maindata!')
 
 if __name__ == '__main__':
     main() 
