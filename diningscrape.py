@@ -77,7 +77,7 @@ def write_name_to_id():
                             continue
                     new_counter += 1
         if counter is tracking_data['name_to_id']:
-            print('All Menu Item Have Been Collected!')
+            print('All Menu Items Have Been Collected!')
         tracking_data['name_to_id'] = counter
         with open('tracker.json', 'w') as tracking_file:
             json.dump(tracking_data, tracking_file)
