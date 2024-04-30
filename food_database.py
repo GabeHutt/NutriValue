@@ -5,8 +5,11 @@ import json
 import re
 from fatsecret import Fatsecret
 
+api_json = None
+
 with open('API.json', 'r') as apis:
         api_json = json.load(apis)
+
 API_ID = api_json['API_ID']
 
 API_SECRET = api_json['API_SECRET']
