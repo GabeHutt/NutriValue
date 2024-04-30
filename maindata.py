@@ -7,14 +7,14 @@ def populate_food_references_with_joins(data_dict):
         cursor = connection.cursor()
         cursor.execute("CREATE TABLE IF NOT EXISTS food_references (id INTEGER PRIMARY KEY, hall_name_id INT, course_id INT, meal_id INT)")
 
-        # Prepare a SQL command for insertion
+        
         insert_sql = "INSERT INTO food_references (hall_name_id, course_id, meal_id) VALUES (?, ?, ?)"
 
         # Iterate over each item in the dictionary
         for hall_name, courses_dict in data_dict.items():
             for course_name, food_names in courses_dict.items():
                 for meal_name in food_names:
-                    # Use JOIN to fetch all necessary IDs in a single query
+                    
                     cursor.execute("""
                         SELECT dh.id, c.id, fn.id
                         FROM dining_halls dh
@@ -23,15 +23,14 @@ def populate_food_references_with_joins(data_dict):
                         WHERE dh.name = ?
                     """, (course_name, meal_name, hall_name))
 
-                    # Fetch the result
+                    
                     result = cursor.fetchone()
                     if result:
                         hall_id, course_id, meal_id = result
-                        # Insert the fetched IDs into food_references
                         try:
                             cursor.execute(insert_sql, (hall_id, course_id, meal_id))
                         except sqlite3.IntegrityError:
-                            continue  # Skip if there's a duplicate
+                            continue  
                         
         connection.commit()
 

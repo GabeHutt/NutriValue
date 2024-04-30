@@ -38,8 +38,9 @@ def get_menu(dining_hall):
 with open('tracker.json', 'r') as tracking_file:
         tracking_data = json.load(tracking_file)
 
-def create_menu_dict(counter):
+def create_menu_dict():
     menu_dict = {name: get_menu(name) for name in dining_hall_names}
+
     with open("menu_dict.json", 'w') as ofile:
         json.dump(menu_dict, ofile)
     return menu_dict
@@ -71,9 +72,8 @@ def write_name_to_id():
                     if record_mode and counter < cap:
                         try:
                             curr.execute("INSERT INTO food_names (name) VALUES (?)", (meal,))
-                            counter += 1  # Only increment the counter if insertion is successful
+                            counter += 1  
                         except sqlite3.IntegrityError:
-                            # If a duplicate is found, this block executes, effectively skipping the insertion
                             continue
                     new_counter += 1
 
