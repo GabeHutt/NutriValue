@@ -23,6 +23,10 @@ def get_food(name):
         pattern = r"(.*?)(?:[Gg]rilled)(.*)"
         matches = re.findall(pattern, name)
         name = "".join(matches[0])
+    if re.findall(f"[Ss]liced",name):
+        pattern = r"(.*?)(?:[Ss]liced)(.*)"
+        matches = re.findall(pattern, name)
+        name = "".join(matches[0])
     try:
         food_response = fs.foods_search(name, 1, 1)
         food_info = str(food_response['food_description'])
@@ -62,7 +66,7 @@ def store_items():
     for i in range(0,25):
         food_retrieve = cursor.execute("SELECT name FROM food_names WHERE id=?",(current_count + i,))
         flag = food_retrieve.fetchone()
-        if flag:
+        if flag is not None:
             food_name = flag[0]
         else:
             continue
@@ -75,13 +79,14 @@ def store_items():
                 carb_score = round((food_nutrition[2] * 4 / food_nutrition[0]) * 100 , 2)
                 true_nutrition = (current_count + i,) + food_nutrition + (fat_score, carb_score, protein_score)
                 cursor.execute('INSERT INTO food_nutrition (food_name_id, calories, fat, carbs, protein, fat_score , carb_score, protein_score) VALUES(?,?,?,?,?,?,?,?)', true_nutrition)
+                connection.commit()
         final_id = current_count + i
     tracking_data['last_id'] = final_id
     with open('tracker.json', 'w') as write:
         json.dump(tracking_data, write)
-    connection.commit()
+    
     if final_id is tracking_data['name_to_id']:
-        print('No More Nutritional Information To Gather, please Run key_tables then maindata!')
+        print('No More Nutritional Information To Gather, Please Run key_tables then maindata!')
 
 if __name__ == '__main__':
     main() 
