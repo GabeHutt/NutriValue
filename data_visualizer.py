@@ -182,7 +182,7 @@ def main():
                 plt.bar(.6 * j + ((counter - 1) * .1), top_protein_meals[i][j][food]['p_score'], color = colors[num_color], width = barWidth, label = food)
                 counter += 1
                 num_color += 1
-        plt.title(f'Top Protein Foods Per Meal Time vs Protein % at {dining_halls[i]}', fontweight = 'bold', fontsize = 15)
+        plt.title(f'Protein % vs Top Protein Foods Per Meal Time at {dining_halls[i]}', fontweight = 'bold', fontsize = 15)
         plt.xlabel('Meal', fontweight = 'bold', fontsize = 15)
         plt.ylabel('Calories From Protein %',fontweight = 'bold', fontsize = 15)
         plt.xticks([.7, 1.3, 1.9 ], data_courses)
