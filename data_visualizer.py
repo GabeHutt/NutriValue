@@ -65,31 +65,35 @@ def main():
                 data_collection[hall_id][course_id]['f_score'] += fat_score
                 data_collection[hall_id][course_id]['num'] += 1
 
-                if hall_name not in top_protein_meals:
-                    top_protein_meals[hall_name] = {}
+                if hall_id not in top_protein_meals:
+                    top_protein_meals[hall_id] = {
+                        1: {},
+                        2: {},
+                        3: {}
+                    }
                 nutri_cursor.execute('SELECT name FROM food_names WHERE id=?',(meal_id,))
                 meal_name_tuple = nutri_cursor.fetchone()
                 meal_name = meal_name_tuple[0]
                 
-                if len(top_protein_meals[hall_name]) < 3:
-                    if meal_name not in top_protein_meals[hall_name]:
-                        top_protein_meals[hall_name][meal_name] = {
+                if len(top_protein_meals[hall_id][course_id]) < 3:
+                    if meal_name not in top_protein_meals[hall_id][course_id]:
+                        top_protein_meals[hall_id][course_id][meal_name] = {
                             'p_score': protein_score,
                             'c_score': carb_score,
                             'f_score': fat_score
                         }
                 min = 999999999999
                 to_remove = None
-                if meal_name not in top_protein_meals[hall_name]:
-                    for meals in top_protein_meals[hall_name]:
-                        current_score = top_protein_meals[hall_name][meals]['p_score']
+                if meal_name not in top_protein_meals[hall_id][course_id]:
+                    for meals in top_protein_meals[hall_id][course_id]:
+                        current_score = top_protein_meals[hall_id][course_id][meals]['p_score']
                         if protein_score > current_score:
                             if current_score < min:
                                 min = current_score
                                 to_remove = meals
-                    if to_remove != None:
-                        top_protein_meals[hall_name].pop(to_remove)
-                        top_protein_meals[hall_name][meal_name] = top_protein_meals[hall_name][meal_name] = {
+                    if to_remove is not None:
+                        top_protein_meals[hall_id][course_id].pop(to_remove)
+                        top_protein_meals[hall_id][course_id][meal_name] = {
                                 'p_score': protein_score,
                                 'c_score': carb_score,
                                 'f_score': fat_score
@@ -109,17 +113,16 @@ def main():
         'Brunch',
         'Dinner'
     ]
-    # Data compression for visualizations
     
     # Set width of bar
     barWidth = 0.1
     fig, axs = plt.subplots(3, 1)
-
+    plt.suptitle('Average Protein, Carb, Fat % vs Meal Time and Dining Hall', fontsize = 15, fontweight = 'bold')
     # Set position of bar on X axis
     r = np.arange(3)
 
     # Define a color map
-    colors = ["#1984c5", "#63bff0", "#a7d5ed", "#e2e2e2", "#e1a692", "#e14b31", "#c23728"]
+    colors = ["#1984c5", "#63bff0", "#a7d5ed", "#e2e2e2", "#e1a692", "#e14b31", "#c23728", "#df979e", "#d7658b", "#c80064"]
 
     # Protein Score Plot
     dining_protein_scores = []
@@ -133,9 +136,6 @@ def main():
     axs[0].set_ylabel('Average Protein %', fontweight='bold', fontsize=15)
     axs[0].set_xticks([r + 3*barWidth for r in range(len(data_courses))], data_courses)
     axs[0].set_yticks([0, 20, 40, 60, 80, 100])
-
-   
-    
 
     #Now visualizing data for carb scores
     
@@ -151,10 +151,6 @@ def main():
     axs[1].set_ylabel('Average Carb %', fontweight='bold', fontsize=15)
     axs[1].set_xticks([r + 3*barWidth for r in range(len(data_courses))], data_courses)
     axs[1].set_yticks([0, 20, 40, 60, 80, 100])
-
- 
-    
-
 
     #Fat Score Visualizing
     dining_fat_scores = []
@@ -172,9 +168,30 @@ def main():
 
     fig.legend(data_dining_halls, title='Dining Halls', loc='center left', bbox_to_anchor=(0.025, 0.5))
     fig.subplots_adjust(left=0.2)
+    
     plt.show()
 
-    
+    #Visualization for Top Protein Meals
+    for i in range(1, len(dining_halls)):
+        num_color = 0
+        fig = plt.subplots(figsize = (12, 8))
+        #Plot each meal per course
+        for j in range (1, len(courses)):
+            counter = 1   
+            for food in top_protein_meals[i][j]:
+                plt.bar(.6 * j + ((counter - 1) * .1), top_protein_meals[i][j][food]['p_score'], color = colors[num_color], width = barWidth, label = food)
+                counter += 1
+                num_color += 1
+        plt.title(f'Top Protein Foods Per Meal Time vs Protein % at {dining_halls[i]}', fontweight = 'bold', fontsize = 15)
+        plt.xlabel('Meal', fontweight = 'bold', fontsize = 15)
+        plt.ylabel('Calories From Protein %',fontweight = 'bold', fontsize = 15)
+        plt.xticks([.7, 1.3, 1.9 ], data_courses)
+        plt.legend(title = "Foods")
+        plt.show()
+
+
+                
+
     
 
 if __name__ == '__main__':
