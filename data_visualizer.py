@@ -201,9 +201,12 @@ def main():
         plt.xticks([.7, 1.3, 1.9 ], data_courses)
         plt.legend(title = "Foods")
         plt.show()
-        with open('calculations.txt', 'w') as calc:
+    with open('data_averages.txt', 'w') as calc:
             format_str = json.dumps(data_collection, indent=4)
             calc.write(format_str)
+    with open('top_meals.txt', 'w') as outFile:
+            format_str = json.dumps(top_protein_meals, indent=4)
+            outFile.write(format_str)
 
 
                 
