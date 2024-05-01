@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import sqlite3
 import numpy as np
+import json
 
 
 
@@ -127,7 +128,11 @@ def main():
     # Protein Score Plot
     dining_protein_scores = []
     for i in range(1, len(dining_halls)):
-        scores = [data_collection[i][j]['p_score'] / data_collection[i][j]['num'] for j in range(1,len(courses))]
+        for j in range(1, len(courses)):
+            scores = []
+            p_avg = data_collection[i][j]['p_score'] / data_collection[i][j]['num']
+            scores.append(p_avg)
+            data_collection[i][j]['p_avg'] = p_avg
         dining_protein_scores.append(scores)
     for i, dining_hall in enumerate(data_dining_halls):
         axs[0].bar(r + i * barWidth, dining_protein_scores[i], color = colors[i], width = barWidth, label = dining_hall)
@@ -141,7 +146,12 @@ def main():
     
     dining_carb_scores = []
     for i in range(1, len(dining_halls)):
-        scores = [data_collection[i][j]['c_score'] / data_collection[i][j]['num'] for j in range(1,len(courses))]
+        for j in range (1, len(courses)):
+            scores = []
+            carb_avg = data_collection[i][j]['c_score'] / data_collection[i][j]['num']
+            scores.append(carb_avg)
+            data_collection[i][j]['c_avg'] = carb_avg
+            
         dining_carb_scores.append(scores)
 
     for i, dining_hall in enumerate(data_dining_halls):
@@ -155,7 +165,11 @@ def main():
     #Fat Score Visualizing
     dining_fat_scores = []
     for i in range(1, len(dining_halls)):
-        scores = [data_collection[i][j]['f_score'] / data_collection[i][j]['num'] for j in range(1,len(courses))]
+        for j in range(1, len(courses)):
+            scores = []
+            f_avg = data_collection[i][j]['f_score'] / data_collection[i][j]['num']
+            scores.append(f_avg)
+            data_collection[i][j]['f_avg'] = f_avg
         dining_fat_scores.append(scores)
     for i, dining_hall in enumerate(data_dining_halls):
         axs[2].bar(r + i * barWidth, dining_fat_scores[i], color = colors[i], width = barWidth, label = dining_hall)
@@ -188,6 +202,8 @@ def main():
         plt.xticks([.7, 1.3, 1.9 ], data_courses)
         plt.legend(title = "Foods")
         plt.show()
+        with open('calculations.json', 'w') as calc:
+            json.dump(data_collection, calc)
 
 
                 
