@@ -51,7 +51,6 @@ def main():
             for row in rows:
                 hall_id = row[1]
                 course_id = row[2]
-                hall_name = dining_halls[hall_id]
                 meal_id = row[3]
                 nutri_cursor = nutri_connect.cursor()
                 nutri_cursor.execute('SELECT fat_score, carb_score, protein_score FROM food_nutrition WHERE food_name_id =?',(meal_id,))
@@ -202,8 +201,9 @@ def main():
         plt.xticks([.7, 1.3, 1.9 ], data_courses)
         plt.legend(title = "Foods")
         plt.show()
-        with open('calculations.json', 'w') as calc:
-            json.dump(data_collection, calc)
+        with open('calculations.txt', 'w') as calc:
+            format_str = json.dumps(data_collection, indent=4)
+            calc.write(format_str)
 
 
                 
